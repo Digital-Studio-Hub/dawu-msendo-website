@@ -1,9 +1,91 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
-import { contactFormSchema } from "@shared/schema";
+import { eq, desc, and } from "drizzle-orm";
+import { contactFormSchema, projects, blogPosts, teamMembers } from "@shared/schema";
+import { db } from "./db";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Projects API
+  app.get("/api/projects", async (req, res) => {
+    try {
+      const { category, location } = req.query;
+      
+      let conditions = [];
+      if (category && category !== "all") {
+        conditions.push(eq(projects.category, category as string));
+      }
+      
+      const allProjects = conditions.length > 0
+        ? await db.select().from(projects).where(and(...conditions)).orderBy(desc(projects.createdAt))
+        : await db.select().from(projects).orderBy(desc(projects.createdAt));
+      
+      // Filter by location if provided (client-side text matching)
+      const filteredProjects = location && location !== "all"
+        ? allProjects.filter(p => p.location.toLowerCase().includes((location as string).toLowerCase()))
+        : allProjects;
+      
+      return res.json(filteredProjects);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      return res.status(500).json({ error: "Failed to fetch projects" });
+    }
+  });
+
+  // Blog Posts API
+  app.get("/api/blog", async (req, res) => {
+    try {
+      const { category, published } = req.query;
+      
+      let conditions = [eq(blogPosts.published, true)];
+      if (category && category !== "all") {
+        conditions.push(eq(blogPosts.category, category as string));
+      }
+      
+      const posts = await db.select().from(blogPosts)
+        .where(and(...conditions))
+        .orderBy(desc(blogPosts.publishedAt));
+      
+      return res.json(posts);
+    } catch (error) {
+      console.error("Error fetching blog posts:", error);
+      return res.status(500).json({ error: "Failed to fetch blog posts" });
+    }
+  });
+
+  app.get("/api/blog/:slug", async (req, res) => {
+    try {
+      const post = await db.select().from(blogPosts)
+        .where(and(
+          eq(blogPosts.slug, req.params.slug),
+          eq(blogPosts.published, true)
+        ))
+        .limit(1);
+      
+      if (post.length === 0) {
+        return res.status(404).json({ error: "Blog post not found" });
+      }
+      
+      return res.json(post[0]);
+    } catch (error) {
+      console.error("Error fetching blog post:", error);
+      return res.status(500).json({ error: "Failed to fetch blog post" });
+    }
+  });
+
+  // Team Members API
+  app.get("/api/team", async (req, res) => {
+    try {
+      const members = await db.select().from(teamMembers)
+        .orderBy(teamMembers.order);
+      
+      return res.json(members);
+    } catch (error) {
+      console.error("Error fetching team members:", error);
+      return res.status(500).json({ error: "Failed to fetch team members" });
+    }
+  });
+  
   app.post("/api/send-mail", async (req, res) => {
     try {
       const data = contactFormSchema.parse(req.body);

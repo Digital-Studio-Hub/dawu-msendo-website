@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
-import { projects } from "@shared/schema";
+import { staticProjectsData } from "@shared/schema";
 
 const categories = [
   { id: "all", label: "All Projects" },
@@ -20,8 +20,8 @@ export default function ProjectsPage() {
 
   const filteredProjects =
     activeCategory === "all"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+      ? staticProjectsData
+      : staticProjectsData.filter((p) => p.category === activeCategory);
 
   return (
     <div className="min-h-screen">
