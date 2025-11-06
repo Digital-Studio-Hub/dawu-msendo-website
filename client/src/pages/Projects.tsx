@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin } from "lucide-react";
-import { staticProjectsData } from "@shared/schema";
+import { MapPin, Loader2 } from "lucide-react";
+import type { Project } from "@shared/schema";
 
 const categories = [
   { id: "all", label: "All Projects" },
@@ -18,10 +19,18 @@ const categories = [
 export default function ProjectsPage() {
   const [activeCategory, setActiveCategory] = useState("all");
 
-  const filteredProjects =
-    activeCategory === "all"
-      ? staticProjectsData
-      : staticProjectsData.filter((p) => p.category === activeCategory);
+  const { data: projects = [], isLoading } = useQuery<Project[]>({
+    queryKey: ["/api/projects", activeCategory],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (activeCategory !== "all") {
+        params.append("category", activeCategory);
+      }
+      const response = await fetch(`/api/projects?${params.toString()}`);
+      if (!response.ok) throw new Error("Failed to fetch projects");
+      return response.json();
+    },
+  });
 
   return (
     <div className="min-h-screen">
@@ -56,8 +65,17 @@ export default function ProjectsPage() {
 
       <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : projects.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground text-lg">No projects found for this category.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project) => (
               <Card
                 key={project.id}
                 className="overflow-hidden hover-elevate transition-all"
@@ -90,14 +108,7 @@ export default function ProjectsPage() {
                   <p className="text-foreground">{project.description}</p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-lg text-muted-foreground">
-                No projects found in this category.
-              </p>
+              ))}
             </div>
           )}
         </div>
