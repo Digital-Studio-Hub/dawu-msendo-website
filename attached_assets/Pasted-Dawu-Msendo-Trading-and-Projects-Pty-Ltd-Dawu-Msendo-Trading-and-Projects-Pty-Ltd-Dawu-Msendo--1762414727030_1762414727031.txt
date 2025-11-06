@@ -1,0 +1,361 @@
+Dawu Msendo Trading and Projects (Pty) Ltd
+Dawu Msendo Trading and Projects (Pty) Ltd
+Dawu Msendo Trading and Projects (Pty) Ltd
+BUSINESS OVERVIEW
+Company Name: Dawu Msendo Trading and Projects (Pty) Ltd
+Registration Number: 2018/446189/07
+Tax Number: 9965703169
+Physical Address: 667/389 Ramaphos Street, Slovo Park, Eldorado Park, 1811
+Contact Persons:
+
+Romeo Dube (Site Manager): 084 282 2378
+
+Lindokuhle Dube (Director General): 068 106 1936
+Tagline: Adding Value, Always
+Bank: Capitec Business Bank (Account 1053467052, Branch Code 450105)
+
+COMPANY PROFILE & PURPOSE
+Dawu Msendo Trading and Projects (Pty) Ltd is a South African construction, civil, and infrastructure development company specializing in:
+
+Urban planning and turnkey construction
+
+Affordable social housing
+
+Infrastructure projects — stormwater, sewer, and water reticulation
+
+Roadworks and electrification
+
+Community facilities — clinics, parks, schools, and shopping complexes
+
+Property development (public and private)
+
+Their mission is to enrich communities through sustainable projects, skills transfer, and social upliftment initiatives such as Ladies of Hope.
+
+The company operates with integrity, ethics, transparency, and community focus, delivering on-time and on-budget infrastructure projects across South Africa.
+
+WEBSITE OBJECTIVE
+Create a fully responsive, modern, and performance-optimized corporate website showcasing Dawu Msendo Trading’s profile, services, and completed projects.
+The website must:
+
+Reflect professionalism, reliability, and community values.
+
+Integrate Lekker Network branding and verified badge.
+
+Include a Node.js backend (ZeptoMail) for all form communications.
+
+Follow best practices for SEO, accessibility, structured data, and Core Web Vitals.
+
+WEBSITE STRUCTURE
+Core Pages
+Page
+
+Purpose
+
+Key Elements
+
+/
+
+Home
+
+Hero banner, mission statement, service highlights, CTA (“Request Quote”), social proof, verified badge, contact info
+
+/about
+
+About Us
+
+Vision, mission, values, directors, company history, images, certificates
+
+/services
+
+What We Do
+
+List of all service categories: construction, infrastructure, roadworks, property development
+
+/projects
+
+Portfolio
+
+Grid/gallery of completed works, each with title, image (WebP), location, short description
+
+/contact
+
+Get in Touch
+
+Contact form → /api/send-mail, Google Maps embed (Eldorado Park), WhatsApp CTA
+
+/faq
+
+FAQ Page
+
+Structured FAQs in JSON-LD format
+
+/privacy-policy
+
+Legal Page
+
+POPIA compliance
+
+/terms-of-service
+
+Legal Page
+
+Contractual terms
+
+Optional / Expandable Sections
+/social-impact — community development programs (Ladies of Hope)
+
+/team — management and key staff
+
+/news — project updates, CSR articles
+
+VISUAL & BRAND DESIGN
+Theme:
+
+Black, white, and Lekker yellow accents (consistent with Lekker Network branding).
+
+Professional, modern, and clean visual layout.
+
+High-contrast, minimalist typography (Poppins / Inter / Roboto).
+
+Logo & Favicon:
+
+Include the Dawu Msendo company logo with alt text: “Dawu Msendo Trading and Projects Logo”.
+
+Set favicon.ico globally across all pages.
+
+Imagery:
+
+Use high-quality, industry-specific WebP stock images representing construction, infrastructure, teamwork, and urban development.
+
+Compress without visible loss.
+
+Lazy-load all images.
+
+Use SEO-friendly alt text (e.g., “construction site Eldorado Park Johannesburg”).
+
+Maintain consistent tone, brightness, and color warmth.
+
+LEKKER NETWORK INTEGRATION
+Footer Layout
+Center Section:
+
+Place the Lekker Network Logo in the center of the footer.
+
+The logo must be clickable and link to https://lekker.network/.
+
+Below it: “Powered by Lekker Network” (text aligned with logo).
+
+Footer Text Example:
+
+© 2024 Dawu Msendo Trading and Projects (Pty) Ltd — 
+[Lekker Network Logo] (Powered by Lekker Network) — 
+Terms of Service | Privacy Policy
+
+Must be responsive, centered, and visually balanced on all devices.
+
+Verified Badge Grid
+5-column grid layout.
+
+Each badge titled “Verified Badge”.
+
+When clicked → redirect to https://lekker.network/the-lekker-network-verified.
+
+Display below each badge: “Lekker Network Verified.”
+
+BACKEND EMAIL FUNCTIONALITY — ZEPTOMAIL
+Purpose: Handle all website form submissions securely.
+
+Implementation Steps:
+
+Set up ZeptoMail in the Node.js backend.
+
+Store credentials in environment variables:
+
+ZEPTOMAIL_API_KEY
+
+ZEPTOMAIL_FROM (e.g., noreply@dawumsendo.co.za)
+
+ADMIN_EMAIL (e.g., info@dawumsendo.co.za)
+
+Create an API route /api/send-mail that:
+
+Accepts validated form data (name, email, phone, message).
+
+Sends an email to both the admin and the sender using ZeptoMail’s REST API.
+
+Returns a JSON response confirming success/failure.
+
+Log and handle errors gracefully; include spam prevention via honeypot or CAPTCHA.
+
+Test all forms and confirm delivery using ZeptoMail logs.
+
+SEO & STRUCTURED DATA
+Schema Markup (JSON-LD)
+Include the following types across the site:
+
+Organization (site-wide)
+
+Website + SearchAction
+
+BreadcrumbList (internal pages)
+
+LocalBusiness (include address, areaServed)
+
+Service (construction, infrastructure, housing)
+
+FAQPage (on FAQ page)
+
+ImageObject (for all key visuals)
+
+Optional: AggregateRating, Review, BlogPosting
+
+Localized SEO
+Add “areaServed”: ["South Africa", "Gauteng", "Johannesburg", "Eldorado Park"]
+
+Include city/region keywords in meta titles, H1s, and footers.
+
+Embed Google Map on the Contact page.
+
+Verify the business on Google Business Profile.
+
+Keyword & Metadata Rules
+Meta Titles: ≤60 characters (include keyword + brand/location).
+
+Descriptions: ≤160 characters (include value statement).
+
+H1: 1 per page, using main keyword.
+
+Content length: ≥600 words (services), ≥300 words (projects).
+
+Keyword density: 1–2%.
+
+Alt text: Keyword-rich but human-readable.
+
+URLs: Clean, lowercase, hyphenated (e.g., /roadworks-eldorado-park).
+
+PERFORMANCE & TECHNICAL REQUIREMENTS
+Optimization Targets
+Page load: < 1.5 seconds
+
+LCP: < 2.5s
+
+CLS: < 0.1
+
+FID: < 100ms
+
+Enable lazy loading, CDN caching, minified assets, WebP images, and gzip/brotli compression.
+
+⚙️ Indexing & Security
+Generate and submit sitemap.xml and robots.txt.
+
+Enforce HTTPS site-wide.
+
+Include CSP headers, secure cookies, and sanitized input handling.
+
+Prevent spam with server-side validation.
+
+ANALYTICS & TRACKING
+Install Google Analytics 4 (GA4) and Google Tag Manager (GTM).
+
+Track:
+
+Contact form submissions
+
+WhatsApp link clicks
+
+Email and call button interactions
+
+Set up conversion tracking for all leads.
+
+1 DELIVERABLES
+Fully responsive website with:
+
+Homepage, About, Services, Projects, Contact, FAQ, and Legal pages.
+
+Verified Lekker Network Badge and footer integration.
+
+Working ZeptoMail backend.
+
+SEO schema and JSON-LD validation.
+
+Sitemap.xml and robots.txt ready for submission.
+
+Lighthouse mobile performance score ≥ 90.
+
+WCAG 2.1 AA accessibility compliance.
+
+GA4 and GTM event tracking tested and active.
+
+12️⃣ CONTENT GUIDELINES
+Tone: Professional, trustworthy, and community-oriented.
+Writing Style: Clear and factual with occasional aspirational language.
+CTAs: “Request a Quote,” “Contact Us,” “View Our Projects.”
+Mission Highlights: “Enriching Lives Through Infrastructure.”
+
+1 TESTING & DEPLOYMENT
+Before launch:
+
+Test /api/send-mail — ensure success responses and ZeptoMail delivery.
+
+Validate structured data in Google Rich Results Test.
+
+Check accessibility with Lighthouse and axe-core.
+
+Test across mobile (iPhone, Android), tablet, and desktop.
+
+Confirm footer badge link and Lekker logo functionality.
+
+Submit sitemap to Google Search Console.
+
+Final Output
+A production-ready, SEO-optimized, responsive website for
+Dawu Msendo Trading and Projects (Pty) Ltd,
+integrated with Lekker Network verification and ZeptoMail automation,
+optimized for South African search visibility, accessibility, and long-term scalability.
+
+Sitemap.xml
+``
+
+<?xml version="1.0" encoding="UTF-8"?>
+https://dawumsendo.co.za/ 2025-11-05 1.0 https://dawumsendo.co.za/about 2025-11-05 0.9 https://dawumsendo.co.za/services 2025-11-05 0.9 https://dawumsendo.co.za/projects 2025-11-05 0.8 https://dawumsendo.co.za/contact 2025-11-05 0.8 https://dawumsendo.co.za/faq 2025-11-05 0.7
+https://dawumsendo.co.za/services/construction2025-11-050.8
+https://dawumsendo.co.za/services/housing-development2025-11-050.8
+https://dawumsendo.co.za/services/infrastructure2025-11-050.8
+https://dawumsendo.co.za/services/roadworks2025-11-050.8
+https://dawumsendo.co.za/services/property-development2025-11-050.8
+https://dawumsendo.co.za/services/electrification2025-11-050.8
+
+https://dawumsendo.co.za/social-impact2025-11-050.6
+https://dawumsendo.co.za/team2025-11-050.6
+https://dawumsendo.co.za/news2025-11-050.6
+
+https://dawumsendo.co.za/privacy-policy2025-11-050.5
+https://dawumsendo.co.za/terms-of-service2025-11-050.5
+
+https://dawumsendo.co.za/sitemap.xml2025-11-050.3
+https://dawumsendo.co.za/robots.txt2025-11-050.3
+
+Robots.txt
+User-agent: *
+Allow: /
+
+Block admin and backend API routes
+Disallow: /admin/
+Disallow: /api/
+
+Important: Allow public-facing pages
+Allow: /about
+Allow: /services
+Allow: /projects
+Allow: /contact
+Allow: /faq
+
+Sitemap reference
+Sitemap: https://dawumsendo.co.za/sitemap.xml
+
+Crawl delay for safer bandwidth use (optional)
+Crawl-delay: 5
+
+``
+
+HTML 7889 characters 1078 words 227 paragraphs
