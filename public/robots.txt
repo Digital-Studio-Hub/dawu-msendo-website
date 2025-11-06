@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Block admin and backend API routes (if any)
+Disallow: /admin/
+Disallow: /api/
+
+# Important: Allow public-facing pages
+Allow: /about
+Allow: /services
+Allow: /projects
+Allow: /contact
+Allow: /faq
+
+# Sitemap reference
+Sitemap: https://dawumsendo.co.za/sitemap.xml
+
+# Crawl delay for safer bandwidth use (optional)
+Crawl-delay: 5
