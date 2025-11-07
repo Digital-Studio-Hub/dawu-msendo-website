@@ -82,9 +82,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-heading font-semibold text-lg mb-4">
-              Contact
-            </h3>
+            <h3 className="font-heading font-semibold text-lg mb-4">Contact</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
@@ -112,7 +110,9 @@ export default function Footer() {
                 <a
                   href="tel:0681061936"
                   className="text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => trackEvent("click", "contact", "phone_lindokuhle")}
+                  onClick={() =>
+                    trackEvent("click", "contact", "phone_lindokuhle")
+                  }
                   data-testid="link-footer-phone-lindokuhle"
                 >
                   068 106 1936 (Lindokuhle)
@@ -141,27 +141,22 @@ export default function Footer() {
               </span>
             </a>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full max-w-4xl">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <a
-                  key={i}
-                  href="https://lekker.network/the-lekker-network-verified"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-2 hover-elevate rounded-md p-4 transition-all"
-                  data-testid={`link-verified-badge-${i}`}
-                >
-                  <img
-                    src={verifiedBadge}
-                    alt="Lekker Network Verified Badge"
-                    className="w-full h-auto max-w-[120px]"
-                  />
-                  <span className="text-xs text-center text-muted-foreground">
-                    Lekker Network Verified
-                  </span>
-                </a>
-              ))}
-            </div>
+            <a
+              href="https://lekker.network/the-lekker-network-verified"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-2 hover-elevate rounded-md p-4 transition-all"
+              data-testid={`link-verified-badge-verified`}
+            >
+              <img
+                src={verifiedBadge}
+                alt="Lekker Network Verified Badge"
+                className="w-full h-auto max-w-[120px]"
+              />
+              <span className="text-xs text-center text-muted-foreground">
+                Lekker Network Verified
+              </span>
+            </a>
           </div>
         </div>
 
