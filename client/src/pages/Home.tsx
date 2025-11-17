@@ -3,7 +3,7 @@ import { Building2, Home, Droplets, Construction, Zap, Building, ArrowRight, Che
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import SEO from "@/components/SEO";
-import heroImage from "@assets/stock_images/construction_site_wo_c110657b.jpg";
+import heroImage from "@assets/scopio-3cbf1042-1c05-474f-887c-563ddef925f1_1763376172755.jpg";
 import housingImage from "@assets/stock_images/modern_affordable_ho_cfbb5ef0.jpg";
 import roadImage from "@assets/stock_images/road_construction_as_742cfffb.jpg";
 import teamImage from "@assets/stock_images/professional_constru_92e54d68.jpg";
@@ -137,7 +137,7 @@ export default function HomePage() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/70 to-black/60" />
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
