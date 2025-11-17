@@ -135,7 +135,7 @@ export default function HomePage() {
       <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover"
-          style={{ backgroundImage: `url(${heroImage})`, backgroundPosition: 'center 30%' }}
+          style={{ backgroundImage: `url(${heroImage})`, backgroundPosition: 'center 70%' }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/70 to-black/60" />
         </div>
