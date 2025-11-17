@@ -3,7 +3,7 @@ import { Building2, Home, Droplets, Construction, Zap, Building, ArrowRight, Che
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import SEO from "@/components/SEO";
-import heroImage from "@assets/scopio-3cbf1042-1c05-474f-887c-563ddef925f1_1763376172755.jpg";
+import heroImage from "@assets/scopio-144c9384-dbba-4c1c-8af6-1762ec99f820_1763376269401.jpg";
 import housingImage from "@assets/stock_images/modern_affordable_ho_cfbb5ef0.jpg";
 import roadImage from "@assets/stock_images/road_construction_as_742cfffb.jpg";
 import teamImage from "@assets/stock_images/professional_constru_92e54d68.jpg";
