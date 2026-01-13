@@ -103,11 +103,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       if (!ZEPTOMAIL_API_KEY || !ZEPTOMAIL_FROM || !ADMIN_EMAIL) {
         console.error("Missing required environment variables for email");
+        console.error("ZEPTOMAIL_API_KEY exists:", !!ZEPTOMAIL_API_KEY);
+        console.error("ZEPTOMAIL_FROM exists:", !!ZEPTOMAIL_FROM);
+        console.error("ADMIN_EMAIL exists:", !!ADMIN_EMAIL);
         return res.status(500).json({
           success: false,
           message: "Email service configuration error",
         });
       }
+      
+      console.log("Attempting to send email from:", ZEPTOMAIL_FROM, "to admin:", ADMIN_EMAIL);
 
       const adminEmailContent = `
 <!DOCTYPE html>
@@ -243,11 +248,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }),
       ]);
 
+      const adminResponseText = await adminResponse.text();
+      const userResponseText = await userResponse.text();
+
       if (!adminResponse.ok || !userResponse.ok) {
         console.error(
-          "ZeptoMail API error:",
-          await adminResponse.text(),
-          await userResponse.text()
+          "ZeptoMail API error - Admin response:",
+          adminResponse.status,
+          adminResponseText
+        );
+        console.error(
+          "ZeptoMail API error - User response:",
+          userResponse.status,
+          userResponseText
         );
         return res.status(500).json({
           success: false,
