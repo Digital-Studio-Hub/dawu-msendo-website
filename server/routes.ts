@@ -112,6 +112,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
+      // Handle API key with or without the prefix
+      const authHeader = ZEPTOMAIL_API_KEY.startsWith("Zoho-enczapikey") 
+        ? ZEPTOMAIL_API_KEY 
+        : `Zoho-enczapikey ${ZEPTOMAIL_API_KEY}`;
+      
       console.log("Attempting to send email from:", ZEPTOMAIL_FROM, "to admin:", ADMIN_EMAIL);
 
       const adminEmailContent = `
@@ -234,7 +239,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Zoho-enczapikey ${ZEPTOMAIL_API_KEY}`,
+            Authorization: authHeader,
           },
           body: JSON.stringify(zeptomailPayload),
         }),
@@ -242,7 +247,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Zoho-enczapikey ${ZEPTOMAIL_API_KEY}`,
+            Authorization: authHeader,
           },
           body: JSON.stringify(userConfirmationPayload),
         }),
