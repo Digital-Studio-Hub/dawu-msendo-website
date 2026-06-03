@@ -7,9 +7,22 @@ import { db } from "./db";
 import { sendContactEmails } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  const ensureDatabase = (res: any): boolean => {
+    if (db) {
+      return true;
+    }
+
+    res.status(503).json({ error: "Database is not configured" });
+    return false;
+  };
+
   // Projects API
   app.get("/api/projects", async (req, res) => {
     try {
+      if (!ensureDatabase(res)) {
+        return;
+      }
+
       const { category, location } = req.query;
       
       let conditions = [];
@@ -36,6 +49,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Blog Posts API
   app.get("/api/blog", async (req, res) => {
     try {
+      if (!ensureDatabase(res)) {
+        return;
+      }
+
       const { category, published } = req.query;
       
       let conditions = [eq(blogPosts.published, true)];
@@ -56,6 +73,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/blog/:slug", async (req, res) => {
     try {
+      if (!ensureDatabase(res)) {
+        return;
+      }
+
       const post = await db.select().from(blogPosts)
         .where(and(
           eq(blogPosts.slug, req.params.slug),
@@ -77,6 +98,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Team Members API
   app.get("/api/team", async (req, res) => {
     try {
+      if (!ensureDatabase(res)) {
+        return;
+      }
+
       const members = await db.select().from(teamMembers)
         .orderBy(teamMembers.order);
       
