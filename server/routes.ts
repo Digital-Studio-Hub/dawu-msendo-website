@@ -4,6 +4,7 @@ import { z } from "zod";
 import { eq, desc, and } from "drizzle-orm";
 import { contactFormSchema, projects, blogPosts, teamMembers } from "@shared/schema";
 import { db } from "./db";
+import { sendContactEmails } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Projects API
@@ -97,27 +98,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const ZEPTOMAIL_API_KEY = process.env.ZEPTOMAIL_API_KEY;
-      const ZEPTOMAIL_FROM = process.env.ZEPTOMAIL_FROM;
       const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
-      if (!ZEPTOMAIL_API_KEY || !ZEPTOMAIL_FROM || !ADMIN_EMAIL) {
+      if (!ADMIN_EMAIL) {
         console.error("Missing required environment variables for email");
-        console.error("ZEPTOMAIL_API_KEY exists:", !!ZEPTOMAIL_API_KEY);
-        console.error("ZEPTOMAIL_FROM exists:", !!ZEPTOMAIL_FROM);
         console.error("ADMIN_EMAIL exists:", !!ADMIN_EMAIL);
         return res.status(500).json({
           success: false,
           message: "Email service configuration error",
         });
       }
-      
-      // Handle API key with or without the prefix
-      const authHeader = ZEPTOMAIL_API_KEY.startsWith("Zoho-enczapikey") 
-        ? ZEPTOMAIL_API_KEY 
-        : `Zoho-enczapikey ${ZEPTOMAIL_API_KEY}`;
-      
-      console.log("Attempting to send email from:", ZEPTOMAIL_FROM, "to admin:", ADMIN_EMAIL);
 
       const adminEmailContent = `
 <!DOCTYPE html>
@@ -200,78 +190,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 </html>
       `;
 
-      const zeptomailPayload = {
-        from: {
-          address: ZEPTOMAIL_FROM,
-          name: "Dawu Msendo Trading",
-        },
-        to: [
-          {
-            email_address: {
-              address: ADMIN_EMAIL,
-              name: "Admin",
-            },
-          },
-        ],
-        subject: `New Contact Form Submission from ${data.name}`,
-        htmlbody: adminEmailContent,
-      };
-
-      const userConfirmationPayload = {
-        from: {
-          address: ZEPTOMAIL_FROM,
-          name: "Dawu Msendo Trading",
-        },
-        to: [
-          {
-            email_address: {
-              address: data.email,
-              name: data.name,
-            },
-          },
-        ],
-        subject: "Thank You for Contacting Dawu Msendo Trading",
-        htmlbody: userConfirmationContent,
-      };
-
-      const [adminResponse, userResponse] = await Promise.all([
-        fetch("https://api.zeptomail.com/v1.1/email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authHeader,
-          },
-          body: JSON.stringify(zeptomailPayload),
-        }),
-        fetch("https://api.zeptomail.com/v1.1/email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authHeader,
-          },
-          body: JSON.stringify(userConfirmationPayload),
-        }),
-      ]);
-
-      const adminResponseText = await adminResponse.text();
-      const userResponseText = await userResponse.text();
-
-      if (!adminResponse.ok || !userResponse.ok) {
-        console.error(
-          "ZeptoMail API error - Admin response:",
-          adminResponse.status,
-          adminResponseText
-        );
-        console.error(
-          "ZeptoMail API error - User response:",
-          userResponse.status,
-          userResponseText
-        );
-        return res.status(500).json({
-          success: false,
-          message: "Failed to send email",
-        });
-      }
+      await sendContactEmails({
+        adminEmail: ADMIN_EMAIL,
+        userEmail: data.email,
+        userName: data.name,
+        adminEmailContent,
+        userConfirmationContent,
+      });
 
       console.log("Emails sent successfully to", ADMIN_EMAIL, "and", data.email);
 
